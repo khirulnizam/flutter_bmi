@@ -79,8 +79,32 @@ class _MyHomePageState extends State<MyHomePage> {
                 */
                 double kg=double.parse(weight.text);
                 double meter=double.parse(height.text);
+                String category, message;
+
                 //formula BMI=kg/(m*m)
                 double BMI=kg/(meter*meter);
+                if(BMI<= 18.8){
+                  message="You are UNDERWIGHT";
+                }
+                else if(BMI>=18.8 && BMI<25){
+                  message="Your BMI is  NORMAL";
+                }
+                else if(BMI>=25 && BMI<30){
+                  message="Your BMI is  NORMAL";
+                }
+                else if(BMI>=30){
+                  message="Your BMI is categorised as OBESITY";
+                }
+
+                Fluttertoast.showToast(
+                    msg: message,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    timeInSecForIos: 1,
+                    backgroundColor: Colors.blue,
+                    textColor: Colors.white,
+                    fontSize: 16.0
+                );
               },//end onPressed
             ),
           ),
