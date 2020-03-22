@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:toast/toast.dart';
 
 void main() {
   runApp(new MyApp());
@@ -90,13 +90,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   message="Your BMI is  NORMAL";
                 }
                 else if(BMI>=25 && BMI<30){
-                  message="Your BMI is  NORMAL";
+                  message="Your BMI is  OVERWEIGHT";
                 }
                 else if(BMI>=30){
                   message="Your BMI is categorised as OBESITY";
                 }
 
-                Fluttertoast.showToast(
+                Toast.show(message, 
+                  context, duration: Toast.LENGTH_SHORT, 
+                  gravity:  Toast.BOTTOM);
+
+
+                /*Fluttertoast.showToast(
                     msg: message,
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.CENTER,
@@ -104,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     backgroundColor: Colors.blue,
                     textColor: Colors.white,
                     fontSize: 16.0
-                );
+                );*/
               },//end onPressed
             ),
           ),
