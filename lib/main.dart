@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+//import 'package:toast/toast.dart';
+//fluttertoast: ^4.0.0
 
 void main() {
   runApp(new MyApp());
@@ -10,12 +12,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'BMI Calculator',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-        primaryColor: const Color(0xFF2196f3),
-        accentColor: const Color(0xFF2196f3),
-        canvasColor: const Color(0xFFfafafa),
+      theme: new ThemeData.dark(
+        //primarySwatch: Colors.blue,
+        //primaryColor: const Color(0xFF2196f3),
+        //accentColor: const Color(0xFF2196f3),
+        //canvasColor: const Color(0xFFfafafa),
       ),
+      //darkTheme: ThemeData.dark(),
       home: new MyHomePage(),
     );
   }
@@ -30,6 +33,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   TextEditingController height = TextEditingController();
   TextEditingController weight = TextEditingController();
+  double _weightSliderValue = 50;
+  double _heightSliderValue = 150;
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -38,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView(
         children: <Widget>[
-          Image(image: AssetImage('assets/bannerBMI.png')),
+          Image(image: AssetImage('assets/flutter-ionic-banner.png')),
           Padding(//TextField ID
             padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 15.0),
             child: TextField(
@@ -51,14 +56,46 @@ class _MyHomePageState extends State<MyHomePage> {
           ),//padding name
           Padding(//TextField ID
             padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 15.0),
+            child: Slider(
+              value: _weightSliderValue,
+              min: 0,
+              max: 200,
+              divisions: 200,
+              label: _weightSliderValue.round().toString(),
+              onChanged: (double value) {
+                setState(() {
+                    _weightSliderValue = value;
+                    this.weight.text=value.toString();
+                    });
+                },
+              ),
+            ),
+          Padding(//TextField ID
+            padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 15.0),
             child: TextField(
               controller: height,//in meter
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Height (meter)',
+                labelText: 'Height (cm)',
               ),
             ),
           ),//number padding
+          Padding(//TextField ID
+            padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 15.0),
+            child: Slider(
+              value: _heightSliderValue,
+              min: 0,
+              max: 200,
+              divisions: 200,
+              label: _heightSliderValue.round().toString(),
+              onChanged: (double value) {
+                setState(() {
+                    _heightSliderValue = value;
+                    this.height.text=value.toString();
+                    });
+                },
+              ),
+            ),
           Padding(
             padding: EdgeInsets.all(16.0),
             child:RaisedButton(
@@ -79,43 +116,61 @@ class _MyHomePageState extends State<MyHomePage> {
                 */
                 double kg=double.parse(weight.text);
                 double meter=double.parse(height.text);
+                //double kg=weight.text;
+                //double meter=height.text;
                 String category, message;
 
                 //formula BMI=kg/(m*m)
                 double BMI=kg/(meter*meter);
                 if(BMI<= 18.8){
-                  message="You are UNDERWIGHT";
-                }
-                else if(BMI>=18.8 && BMI<25){
-                  message="Your BMI is  NORMAL";
-                }
-                else if(BMI>=25 && BMI<30){
-                  message="Your BMI is  OVERWEIGHT";
-                }
-                else if(BMI>=30){
-                  message="Your BMI is categorised as OBESITY";
-                }
-
-                Toast.show(message, 
-                  context, duration: Toast.LENGTH_SHORT, 
-                  gravity:  Toast.BOTTOM);
-
-
-                /*Fluttertoast.showToast(
+                  message="You are UNDERWEIGHT";
+                  Fluttertoast.showToast(
                     msg: message,
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.CENTER,
-                    timeInSecForIos: 1,
+                    backgroundColor: Colors.green,
+                    textColor: Colors.white,
+                    fontSize: 16.0
+                  );
+                }
+                else if(BMI>=18.8 && BMI<25){
+                  message="Your BMI is  NORMAL";
+                  Fluttertoast.showToast(
+                    msg: message,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
                     backgroundColor: Colors.blue,
                     textColor: Colors.white,
                     fontSize: 16.0
-                );*/
+                  );
+                }
+                else if(BMI>=25 && BMI<30){
+                  message="Your BMI is  OVERWEIGHT";
+                  Fluttertoast.showToast(
+                    msg: message,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    backgroundColor: Colors.orange,
+                    textColor: Colors.white,
+                    fontSize: 16.0
+                  );
+                }
+                else if(BMI>=30){
+                  message="Your BMI is categorised as OBESITY";
+                  Fluttertoast.showToast(
+                    msg: message,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0
+                  );
+                }//else if
               },//end onPressed
             ),
           ),
         ],
-
       ),
     );
-  }
-}
+  }//end Widget build
+}//end class _MyHomePageState
