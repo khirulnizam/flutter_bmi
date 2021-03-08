@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-//import 'package:toast/toast.dart';
+import 'info.dart';
 //fluttertoast: ^4.0.0
 
 void main() {
@@ -20,6 +20,9 @@ class MyApp extends StatelessWidget {
       ),
       //darkTheme: ThemeData.dark(),
       home: new MyHomePage(),
+      routes: <String, WidgetBuilder>{
+          '/info': (BuildContext context) => new Info(),
+        }
     );
   }
 }
@@ -39,6 +42,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
+         actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.info),
+              tooltip: "Hubungi kami",
+              onPressed: () {
+                Navigator.of(context).pushNamed('/info');
+              })
+        ],
         title: new Text('BMI Calculator'),
       ),
       body: ListView(
@@ -115,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Obesity = BMI of 30 or greater
                 */
                 double kg=double.parse(weight.text);
-                double meter=double.parse(height.text);
+                double meter=double.parse(height.text)/100;
                 //double kg=weight.text;
                 //double meter=height.text;
                 String category, message;
